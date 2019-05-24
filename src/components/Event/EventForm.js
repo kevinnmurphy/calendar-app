@@ -1,12 +1,7 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
-import { useMutation } from 'react-apollo-hooks';
-import {
-  EVENTS_QUERY,
-  CREATE_EVENT_MUTATION,
-  UPDATE_EVENT_MUTATION
-} from '../../queries';
 
+import {useCreateUpdateMutation, useDeleteMutation} from './eventMutationHooks'
 import 'react-datepicker/dist/react-datepicker.css';
 
 import './Event.css';
@@ -18,53 +13,17 @@ const EventForm = ({ event, closeModal }) => {
   const [email, setEmail] = React.useState(event.email);
   const [description, setDescription] = React.useState(event.description);
 
+  const payload = { startAt, endAt, title, email, description };
+
   const eventExists = !!event.title;
-  const mutationType = eventExists
-    ? UPDATE_EVENT_MUTATION
-    : CREATE_EVENT_MUTATION;
-  const createData = { startAt, endAt, title, email, description };
-  const updateData = { ...createData, id: event.id };
-  const data = eventExists ? updateData : createData;
 
-  const transformCacheUpdateData = (eventsList, newData) => {
-    const mutationResult = eventExists
-      ? newData.eventUpdate
-      : newData.eventCreate;
-
-    const createTransformation = {
-      ...eventsList,
-      count: eventsList.count + 1,
-      items: [...eventsList.items, mutationResult]
-    };
-
-    const updateTransformation = {
-      ...eventsList,
-      items: eventsList.items.map(item =>
-        item.id === mutationResult.id ? mutationResult : item
-      )
-    };
-    return eventExists ? updateTransformation : createTransformation;
-  };
-
-  const createUpdateEvent = useMutation(mutationType, {
-    variables: {
-      data
-    },
-    update: (cache, { data }) => {
-      const { eventsList } = cache.readQuery({
-        query: EVENTS_QUERY
-      });
-
-      cache.writeQuery({
-        query: EVENTS_QUERY,
-        data: {
-          eventsList: transformCacheUpdateData(eventsList, data)
-        }
-      });
-      
-      closeModal();
-    }
-  });
+  const createUpdateEvent = useCreateUpdateMutation(
+    payload,
+    event,
+    eventExists,
+    () => closeModal()
+  );
+  const deleteEvent = useDeleteMutation(event, () => closeModal());
 
   return (
     <form
@@ -146,15 +105,15 @@ const EventForm = ({ event, closeModal }) => {
               <input
                 className="button-primary"
                 type="submit"
-                value={event && event.title ? 'Update' : 'Create'}
+                value={eventExists ? 'Update' : 'Create'}
               />
             </div>
-            {event.title && (
+            {eventExists && (
               <div className="column column-50">
                 <input
                   className="button-danger"
                   type="button"
-                  onClick={() => {}}
+                  onClick={deleteEvent}
                   value="Delete"
                 />
               </div>
