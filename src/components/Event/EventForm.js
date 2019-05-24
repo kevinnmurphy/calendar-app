@@ -1,28 +1,76 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
+import { useMutation } from 'react-apollo-hooks';
+import {
+  EVENTS_QUERY,
+  CREATE_EVENT_MUTATION,
+  UPDATE_EVENT_MUTATION
+} from '../../queries';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
 import './Event.css';
 
-const EventForm = ({ event, createUpdateEvent }) => {
+const EventForm = ({ event, closeModal }) => {
   const [startAt, setStartDate] = React.useState(new Date(event.startAt));
   const [endAt, setEndDate] = React.useState(new Date(event.endAt));
   const [title, setTitle] = React.useState(event.title);
   const [email, setEmail] = React.useState(event.email);
   const [description, setDescription] = React.useState(event.description);
 
+  const eventExists = !!event.title;
+  const mutationType = eventExists
+    ? UPDATE_EVENT_MUTATION
+    : CREATE_EVENT_MUTATION;
+  const createData = { startAt, endAt, title, email, description };
+  const updateData = { ...createData, id: event.id };
+  const data = eventExists ? updateData : createData;
+
+  const transformCacheUpdateData = (eventsList, newData) => {
+    const mutationResult = eventExists
+      ? newData.eventUpdate
+      : newData.eventCreate;
+
+    const createTransformation = {
+      ...eventsList,
+      count: eventsList.count + 1,
+      items: [...eventsList.items, mutationResult]
+    };
+
+    const updateTransformation = {
+      ...eventsList,
+      items: eventsList.items.map(item =>
+        item.id === mutationResult.id ? mutationResult : item
+      )
+    };
+    return eventExists ? updateTransformation : createTransformation;
+  };
+
+  const createUpdateEvent = useMutation(mutationType, {
+    variables: {
+      data
+    },
+    update: (cache, { data }) => {
+      const { eventsList } = cache.readQuery({
+        query: EVENTS_QUERY
+      });
+
+      cache.writeQuery({
+        query: EVENTS_QUERY,
+        data: {
+          eventsList: transformCacheUpdateData(eventsList, data)
+        }
+      });
+      
+      closeModal();
+    }
+  });
+
   return (
     <form
       onSubmit={e => {
         e.preventDefault();
-        event.title
-          ? createUpdateEvent({
-              variables: { data: { id: event.id, startAt, endAt, title, email, description } }
-            })
-          : createUpdateEvent({
-              variables: { data: { startAt, endAt, title, email, description } }
-            });
+        createUpdateEvent();
       }}
     >
       <fieldset>
@@ -101,16 +149,16 @@ const EventForm = ({ event, createUpdateEvent }) => {
                 value={event && event.title ? 'Update' : 'Create'}
               />
             </div>
-           {event.title &&  <div className="column column-50">
-              <input
-                className="button-danger"
-                type="button"
-                onClick={() => {
-                  
-                }}
-                value="Delete"
-              />
-            </div>}
+            {event.title && (
+              <div className="column column-50">
+                <input
+                  className="button-danger"
+                  type="button"
+                  onClick={() => {}}
+                  value="Delete"
+                />
+              </div>
+            )}
           </div>
         </div>
       </fieldset>
