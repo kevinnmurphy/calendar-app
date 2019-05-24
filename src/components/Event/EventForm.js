@@ -40,11 +40,11 @@ const EventForm = ({ event, closeModal }) => {
               <DatePicker
                 selected={startAt}
                 onChange={date => setStartDate(date)}
-                showTimeSelect
                 timeFormat="HH:mm"
                 timeIntervals={15}
                 dateFormat="MMMM d, yyyy h:mm aa"
                 timeCaption="time"
+                showTimeInput
               />
             </div>
             <div className="column">
@@ -52,11 +52,11 @@ const EventForm = ({ event, closeModal }) => {
               <DatePicker
                 selected={endAt}
                 onChange={date => setEndDate(date)}
-                showTimeSelect
                 timeFormat="HH:mm"
                 timeIntervals={15}
                 dateFormat="MMMM d, yyyy h:mm aa"
                 timeCaption="time"
+                showTimeInput
               />
             </div>
           </div>
