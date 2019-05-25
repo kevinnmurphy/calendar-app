@@ -2,7 +2,7 @@
 
 # Calendar App with React, 8Base and Azure Functions
 
-![Calendar App UI](https://res.cloudinary.com/codebeast/image/upload/c_scale,q_61,w_1200/v1558748358/Screenshot_2019-05-25_at_5.38.57_AM.png)
+![Calendar App UI](https://res.cloudinary.com/codebeast/image/upload/c_scale,w_1500/v1558748358/Screenshot_2019-05-25_at_5.38.57_AM.png)
 
 - Timed event scheduling
 - Neat calendar UI
