@@ -1,12 +1,33 @@
+/**
+ * What is happening here?
+ *
+ * 1. Renders a React Modal component
+ * 2. Open and close state is controlled 
+ *   from parent Calendar component
+ * 3. The Modal renders a form which can be used
+ *    to CREATE a new event
+ *
+ */
+
+ /** TODO:
+  * 
+  * 1. Import `useCreateUpdateMutation` and `useDeleteMutation`
+  * 2. Create `createUpdateEvent` and `deleteEvent` mutation with the imports
+  * 3. Attach mutation events to DOM
+  * 
+  */
+
 import React from 'react';
 import DatePicker from 'react-datepicker';
 
-import {useCreateUpdateMutation, useDeleteMutation} from './eventMutationHooks'
+// TODO -- 1
+
 import 'react-datepicker/dist/react-datepicker.css';
 
 import './Event.css';
 
 const EventForm = ({ event, closeModal }) => {
+  // TODO: use unused variable `closeModal`
   const [startAt, setStartDate] = React.useState(new Date(event.startAt));
   const [endAt, setEndDate] = React.useState(new Date(event.endAt));
   const [title, setTitle] = React.useState(event.title);
@@ -14,22 +35,19 @@ const EventForm = ({ event, closeModal }) => {
   const [description, setDescription] = React.useState(event.description);
 
   const payload = { startAt, endAt, title, email, description };
+  // TODO: use unused variable `payload`
 
   const eventExists = !!event.title;
 
-  const createUpdateEvent = useCreateUpdateMutation(
-    payload,
-    event,
-    eventExists,
-    () => closeModal()
-  );
-  const deleteEvent = useDeleteMutation(event, () => closeModal());
+  // TODO -- 2
+  const createUpdateEvent = () => {};
+  const deleteEvent = () => {};
 
   return (
     <form
       onSubmit={e => {
         e.preventDefault();
-        createUpdateEvent();
+        createUpdateEvent(); // TODO -- 3
       }}
     >
       <fieldset>
@@ -113,7 +131,7 @@ const EventForm = ({ event, closeModal }) => {
                 <input
                   className="button-danger"
                   type="button"
-                  onClick={deleteEvent}
+                  onClick={deleteEvent} // TODO -- 3
                   value="Delete"
                 />
               </div>

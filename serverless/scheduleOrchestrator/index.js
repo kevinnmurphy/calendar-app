@@ -1,13 +1,21 @@
 ﻿/*
- * This function is not intended to be invoked directly. Instead it will be
- * triggered by an HTTP starter function.
+ * What is happening here?
  * 
- * Before running this sample, please:
- * - create a Durable activity function (default name is "Hello")
- * - create a Durable HTTP starter function
- * - run 'npm install durable-functions' from the wwwroot folder of your 
- *    function app in Kudu
+ * 1. Return an orchestrator call which is passed a
+ *    serverless function
+ * 2. The req.body passed to the trigger function can be
+ *    retrived here using context.df.getInput()
+ *
  */
+
+ /* 
+  * TODO:
+  *
+  * 1. Create a schedule with createTimer using date from the request body
+  * 2. Call the sendEmail activity function whenever the schedule is due 
+  *    and pass input as payload
+  * 
+  */
 
 const df = require("durable-functions");
 
@@ -15,8 +23,7 @@ module.exports = df.orchestrator(function* (context) {
 
     const input = context.df.getInput()
     
-    yield context.df.createTimer(new Date(input.startAt))
+    // TODO -- 1
     
-    
-    return yield context.df.callActivity('sendEmail', input);
+    // TODO -- 2
 });

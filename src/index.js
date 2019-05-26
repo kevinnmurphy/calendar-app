@@ -1,25 +1,30 @@
+/**
+ * What is happening here?
+ * 
+ * Nothing surprising yet :)
+ * 
+ */
+/** TODO
+ * 
+ * 1. Import 8Base client and Apollo provider
+ * 2. Create a database connection using 8Base client
+ * 3. Wrap the entire tree with Apollo provide and pass it the client props
+ * 
+ */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { EightBaseApolloClient } from '@8base/apollo-client';
 
-import { ApolloProvider } from 'react-apollo-hooks';
+// TODO -- 1
+
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-const URI = 'https://api.8base.com/cjvuk51i0000701s0hvvcbnxg';
+// TODO -- 2
 
-const apolloClient = new EightBaseApolloClient({
-  uri: URI,
-  withAuth: false
-});
 
-ReactDOM.render(
-  <ApolloProvider client={apolloClient}>
-    <App />
-  </ApolloProvider>,
-  document.getElementById('root')
-);
+// TODO -- 3
+ReactDOM.render(<App />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
