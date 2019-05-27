@@ -47,7 +47,7 @@ const EventForm = ({ event, closeModal }) => {
     <form
       onSubmit={e => {
         e.preventDefault();
-        createUpdateEvent(); // TODO -- 3
+        createUpdateEvent();
       }}
     >
       <fieldset>
@@ -131,7 +131,7 @@ const EventForm = ({ event, closeModal }) => {
                 <input
                   className="button-danger"
                   type="button"
-                  onClick={deleteEvent} // TODO -- 3
+                  onClick={deleteEvent}
                   value="Delete"
                 />
               </div>
