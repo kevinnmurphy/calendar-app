@@ -2,58 +2,74 @@
  * What is happening here?
  *
  * 1. Calendar renders with a list of events
- * 2. Give Calendar a custom Popover (EventPopover) component 
+ * 2. Give Calendar a custom Popover (EventPopover) component
  *    that will be used to edit events
  * 3. Render a Modal (EventModal) that will be used to create new events
  *
  */
 
- /** TODO:
-  * 
-  * 1. Fetch data with GraphQL query
-  * 2. Handle error and loading state
-  * 3. Replace eventsList with query result
-  * 
-  */
-
-import React from 'react';
-import BigCalendar from 'react-big-calendar';
-import moment from 'moment';
+import React, { useState } from 'react';
+import { Calendar as BigCalendar, dateFnsLocalizer } from 'react-big-calendar';
+import format from 'date-fns/format';
+import parse from 'date-fns/parse';
+import startOfWeek from 'date-fns/startOfWeek';
+import getDay from 'date-fns/getDay';
 
 import EventPopover from '../Event/EventPopover';
 import EventModal from '../Event/EventModal';
 
-// import useQuery and Events Query
+import { useQuery } from '@apollo/react-hooks';
+import { EVENTS_QUERY } from '../../queries';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import './Calendar.css';
 
-const transformItems = eventsList =>
-  eventsList.items.map(item => {
+import eventsList from './Events';
+
+const locales = {
+  'en-US': require('date-fns/locale/en-US'),
+};
+const localizer = dateFnsLocalizer({
+  format,
+  parse,
+  startOfWeek,
+  getDay,
+  locales,
+});
+
+const transformItems = (eventsList) =>
+  eventsList.items.map((item) => {
     return {
       ...item,
-      email: item.email || '',
       description: item.description || '',
       start: new Date(item.startAt),
-      end: new Date(item.endAt)
+      end: new Date(item.endAt),
+      //add the rest of the attributes
     };
   });
 
 const Calendar = () => {
-  const [selectedStartDate, setSelectedStartDate] = React.useState(new Date());
-  const [selectedEndDate, setSelectedEndDate] = React.useState(new Date());
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [selectedStartDate, setSelectedStartDate] = useState(new Date());
+  const [selectedEndDate, setSelectedEndDate] = useState(new Date());
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // TODO -- 1
+  const { data, error, loading } = useQuery(EVENTS_QUERY);
 
-  // TODO -- 2
+  // if (error) return console.log(error);
+  if (loading)
+    return (
+      <div className='calendar'>
+        <p>Loading...</p>
+      </div>
+    );
 
   return (
-    <div className="calendar">
+    <div className='calendar'>
       <div style={{ height: '100vh' }}>
         <BigCalendar
-          localizer={BigCalendar.momentLocalizer(moment)}
-          events={transformItems(eventsList)} // TODO -- 3
+          localizer={localizer}
+          // events={transformItems(eventsList)}
+          events={transformItems(data && data.length > 0 ? data : eventsList)}
           components={{ event: EventPopover }}
           showMultiDayTimes
           selectable
@@ -71,26 +87,12 @@ const Calendar = () => {
             startAt: selectedStartDate,
             endAt: selectedEndDate,
             title: '',
-            email: '',
-            description: ''
+            description: '',
           }}
         />
       </div>
     </div>
   );
-};
-
-const eventsList = {
-  items: [
-    {
-      id: 1,
-      startAt: new Date(),
-      endAt: new Date(),
-      title: 'Meeting today',
-      email: '',
-      description: ''
-    }
-  ]
 };
 
 export default Calendar;

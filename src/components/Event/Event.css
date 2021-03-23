@@ -1,4 +1,5 @@
 input[type='email']:focus,
+input[type='phone']:focus,
 input[type='text']:focus,
 textarea:focus,
 select:focus {
@@ -17,8 +18,8 @@ label {
 }
 
 .button-danger {
-  background-color: #E53C51 !important;
-  border: 1px solid #E53C51 !important;
+  background-color: #e53c51 !important;
+  border: 1px solid #e53c51 !important;
 }
 
 .close {

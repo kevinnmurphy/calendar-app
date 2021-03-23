@@ -35,10 +35,10 @@
 }
 
 .calendar .rbc-event {
-  background-color: #e8effa;
+  background-color: #f0f0f0;
   border-radius: 0;
-  color: #004fd4;
-  border-left: 2px solid #004fd4;
+  color: #696969;
+  border-left: 2px solid #696969;
   margin-left: -1px;
   font-size: 12px;
   font-weight: 600;
@@ -72,6 +72,7 @@
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.1);
 }
 
-.Popover, .ReactModal__Overlay{
+.Popover,
+.ReactModal__Overlay {
   z-index: 1000;
 }

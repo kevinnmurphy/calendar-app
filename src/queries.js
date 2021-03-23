@@ -1,4 +1,4 @@
-import { gql } from '@8base/apollo-client';
+import { gql } from '@apollo/client';
 
 export const EVENTS_QUERY = gql`
   query {
@@ -44,7 +44,6 @@ export const UPDATE_EVENT_MUTATION = gql`
     }
   }
 `;
-
 
 export const DELETE_EVENT_MUTATION = gql`
   mutation EventDelete($data: EventDeleteInput!) {

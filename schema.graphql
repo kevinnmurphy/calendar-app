@@ -1,0 +1,14 @@
+type User {
+  username: String!
+}
+
+type Query {
+  allUsers: [User!]!
+}
+
+type Project {
+  name: String
+}
+type Query {
+  allProjects: [Project!]
+}
