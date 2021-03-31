@@ -1,8 +1,8 @@
 const today = new Date();
 const tomorrow = new Date();
-tomorrow.setDate(tomorrow.getDate() + 1);
+tomorrow.setDate(today.getDate() + 1);
 const yesterday = new Date();
-yesterday.setDate(yesterday.getDate() - 1);
+yesterday.setDate(today.getDate() - 1);
 
 const eventsList = {
   items: [
@@ -113,3 +113,139 @@ export default eventsList;
 
 // balance collected
 //description
+
+// const { ApolloServer, gql } = require('apollo-server');
+// const { GraphQLScalarType, Kind } = require('graphql');
+// const { name, address, date } = require('faker/locale/en');
+// const faker = require('faker/locale/en');
+
+// const random_boolean = () => (Math.random() < 0.5 ? true : false);
+// const random_category = () =>
+//   Math.random() < 0.5 ? 'RESIDENTIAL' : 'COMMERCIAL';
+
+// faker.seed(123);
+
+// const typeDefs = gql`
+//   scalar Date
+
+//   enum Category {
+//     RESIDENTIAL
+//     COMMERCIAL
+//   }
+
+//   type Project {
+//     id: ID!
+//     title: String!
+//     category: Category!
+//     created_at: Date!
+//     updated_at: Date
+//     templated: Boolean
+//     templateDate: Date
+//     fabricated: Boolean
+//     fabricateDate: Date
+//     installed: Boolean
+//     installDate: Date
+//   }
+
+//   # The "Query" type is special: it lists all of the available queries that
+//   # clients can execute, along with the return type for each. In this
+//   # case, the "books" query returns an array of zero or more Books (defined above).
+//   type Query {
+//     projects: [Project]
+//   }
+// `;
+
+// const dateScalar = new GraphQLScalarType({
+//   name: 'Date',
+//   description: 'Date custom scalar type',
+//   serialize(value) {
+//     return value.getTime(); // Convert outgoing Date to integer for JSON
+//   },
+//   parseValue(value) {
+//     return new Date(value); // Convert incoming integer to Date
+//   },
+//   parseLiteral(ast) {
+//     if (ast.kind === Kind.INT) {
+//       return parseInt(ast.value, 10); // Convert hard-coded AST string to type expected by parseValue
+//     }
+//     return null; // Invalid hard-coded value (not an integer)
+//   },
+// });
+
+// const projects = [
+//   {
+//     title: 'Monticello',
+//     category: 'RESIDENTIAL',
+//     created_at: Date,
+//     updated_at: null,
+//     templated: true,
+//     templateDate: Date,
+//     fabricated: false,
+//     fabricateDate: Date,
+//     installed: false,
+//     installDate: Date,
+//   },
+//   {
+//     title: address.streetName(),
+//     category: random_category,
+//     created_at: date.past(),
+//     updated_at: date.past(),
+//     templated: random_boolean,
+//     templateDate: date.past(),
+//     fabricated: random_boolean,
+//     fabricateDate: date.future(),
+//     installed: random_boolean,
+//     installDate: date.future(),
+//   },
+//   {
+//     title: address.streetName(),
+//     category: random_category,
+//     created_at: date.past(),
+//     updated_at: date.past(),
+//     templated: random_boolean,
+//     templateDate: date.past(),
+//     fabricated: random_boolean,
+//     fabricateDate: date.future(),
+//     installed: random_boolean,
+//     installDate: date.future(),
+//   },
+//   {
+//     title: address.streetName(),
+//     category: random_category,
+//     created_at: date.past(),
+//     updated_at: date.past(),
+//     templated: random_boolean,
+//     templateDate: date.past(),
+//     fabricated: random_boolean,
+//     fabricateDate: date.future(),
+//     installed: random_boolean,
+//     installDate: date.future(),
+//   },
+//   {
+//     title: address.streetName(),
+//     category: random_category,
+//     created_at: date.past(),
+//     updated_at: date.past(),
+//     templated: random_boolean,
+//     templateDate: date.past(),
+//     fabricated: random_boolean,
+//     fabricateDate: date.future(),
+//     installed: random_boolean,
+//     installDate: date.future(),
+//   },
+// ];
+
+// const resolvers = {
+//   Query: {
+//     projects: () => projects,
+//   },
+// };
+
+// const server = new ApolloServer({
+//   typeDefs,
+//   resolvers,
+// });
+
+// server.listen().then(({ url }) => {
+//   console.log(`🚀  Server ready at ${url}`);
+// });
