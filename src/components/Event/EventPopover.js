@@ -26,27 +26,36 @@ const EventPopover = ({ event }) => {
   let color, bg, sfColor;
   if (event.status) {
     switch (event.status) {
+      case (event.status = 'none'):
+        // color = 'gray';
+        color = 'rgba(150, 150, 150, 1)';
+        bg = 'rgba(250, 250, 250, 1)';
+        break;
       case (event.status = 'template'):
         // color = 'green';
-        color = 'rgb(50, 150, 50)';
-        bg = 'rgb(200, 255, 200)';
+        color = 'rgba(50, 150, 50, 1)';
+        bg = 'rgba(200, 255, 200, .5)';
         break;
       case (event.status = 'install'):
         // color = 'blue';
-        color = 'rgb(50, 50, 150)';
-        bg = 'rgb(200, 200, 255)';
+        color = 'rgba(50, 50, 150, 1)';
+        bg = 'rgba(200, 200, 255, .5)';
         break;
       case (event.status = 'service'):
         // color = 'red';
-        color = 'rgb(150, 50, 50)';
-        bg = 'rgb(255, 200, 200)';
+        color = 'rgba(150, 50, 50, 1)';
+        bg = 'rgba(255, 200, 200, .5)';
 
         break;
       default:
-      // color = 'gray';
+        // color = 'gray';
+        color = 'rgba(150, 150, 150, 1)';
+        bg = 'rgba(250, 250, 250, 1)';
     }
   }
-  sfColor = event.sqftConfirm ? 'rgb(250, 50, 150)' : 'rgb(255, 150, 50)';
+  sfColor = event.sqftConfirm
+    ? 'rgba(255, 0, 150, 1)'
+    : 'rgba(255, 150, 50, 1)';
 
   return (
     <Popover
@@ -73,7 +82,7 @@ const EventPopover = ({ event }) => {
           // borderLeft: `2px solid ${color}`,
         }}
       >
-        {/* Add confirm and set toggle for cheacks */}
+        {/* Add confirm and set toggle for checks */}
         {/* <span>{confirm}</span> */}
         {title}
         <span
